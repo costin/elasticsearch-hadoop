@@ -19,6 +19,7 @@
 package org.elasticsearch.hadoop.mr;
 
 import java.io.IOException;
+import java.util.Map;
 
 import org.elasticsearch.hadoop.rest.Request;
 import org.elasticsearch.hadoop.rest.Response;
@@ -51,8 +52,8 @@ public class RestUtils {
             return IOUtils.asString(execute(Request.Method.GET, index));
         }
 
-        public String post(String index, byte[] buffer) throws IOException {
-            return IOUtils.asString(execute(Request.Method.POST, index, new BytesArray(buffer)).body());
+        public Map<String, Object> post(String index, byte[] buffer) throws IOException {
+            return parseContent(execute(Request.Method.POST, index, new BytesArray(buffer)).body(), null);
         }
 
         public String put(String index, byte[] buffer) throws IOException {
@@ -89,15 +90,18 @@ public class RestUtils {
         putMapping(index, TestUtils.fromInputStream(RestUtils.class.getClassLoader().getResourceAsStream(location)));
     }
 
-    public static void postData(String index, String location) throws Exception {
+    public static Map<String, Object> postData(String index, String location) throws Exception {
         byte[] fromInputStream = TestUtils.fromInputStream(RestUtils.class.getClassLoader().getResourceAsStream(location));
-        postData(index, fromInputStream);
+        return postData(index, fromInputStream);
     }
 
-    public static void postData(String index, byte[] content) throws Exception {
+    public static Map<String, Object> postData(String index, byte[] content) throws Exception {
         ExtendedRestClient rc = new ExtendedRestClient();
-        rc.post(index, content);
-        rc.close();
+        try {
+            return rc.post(index, content);
+        } finally {
+            rc.close();
+        }
     }
 
     public static void put(String index, byte[] content) throws Exception {

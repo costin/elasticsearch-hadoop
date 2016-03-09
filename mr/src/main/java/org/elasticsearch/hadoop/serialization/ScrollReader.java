@@ -237,11 +237,13 @@ public class ScrollReader {
 
         BytesArray copy = null;
 
-        if (log.isTraceEnabled() || returnRawJson) {
+        if (trace || returnRawJson) {
             //copy content
             copy = IOUtils.asBytes(content);
             content = new FastByteArrayInputStream(copy);
-            log.trace("About to parse scroll content " + copy);
+            if (trace) {
+                log.trace(String.format("About to parse scroll content [%s]", copy.toString()));
+            }
         }
 
         this.parser = new JacksonJsonParser(content);

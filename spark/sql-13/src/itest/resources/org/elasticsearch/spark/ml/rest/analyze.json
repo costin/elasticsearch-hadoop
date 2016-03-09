@@ -1,0 +1,32 @@
+{
+  "tokens" : [
+    {
+      "token" : "this",
+      "start_offset" : 0,
+      "end_offset" : 4,
+      "type" : "<ALPHANUM>",
+      "position" : 0
+    },
+    {
+      "token" : "is",
+      "start_offset" : 5,
+      "end_offset" : 7,
+      "type" : "<ALPHANUM>",
+      "position" : 1
+    },
+    {
+      "token" : "a",
+      "start_offset" : 8,
+      "end_offset" : 9,
+      "type" : "<ALPHANUM>",
+      "position" : 2
+    },
+    {
+      "token" : "test",
+      "start_offset" : 10,
+      "end_offset" : 14,
+      "type" : "<ALPHANUM>",
+      "position" : 3
+    }
+  ]
+}

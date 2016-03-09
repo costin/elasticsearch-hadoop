@@ -594,6 +594,11 @@ project(":elasticsearch-spark") {
     description = "Elasticsearch Spark (Spark 1.3+)"
 
     baseSparkProject(project, spark13Version)
+
+    // ML 
+    dependencies {
+        optional("org.apache.spark:spark-mllib_$scalaMajorVersion:$spark13Version")
+    }
     
     // deal with the messy conflicts out there
     configurations.all {
