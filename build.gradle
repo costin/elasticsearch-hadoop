@@ -22,6 +22,8 @@ allprojects {
       // Hive depends on JDO ec2 missing from Maven Central
       maven { url "http://www.datanucleus.org/downloads/maven2" }
       maven { url "http://oss.sonatype.org/content/groups/public/" }
+      // Spark SNAPSHOT repo
+      maven { url "http://repository.apache.org/snapshots/" }
     }
 
     apply plugin: "java"
@@ -484,7 +486,7 @@ project(":elasticsearch-hadoop-hive") {
 
 // reusable method to nest Map/Reduce module in the rest of the projects to make them usable stand-alone
 def baseSparkProject(target, sparkVersion) {
-   def scalaVer = project.hasProperty("scala") ? project.getProperty("scala") : "210"
+   def scalaVer = project.hasProperty("scala") ? project.getProperty("scala") : "211"
 
     switch (scalaVer) {
       case "211":
@@ -512,13 +514,13 @@ def baseSparkProject(target, sparkVersion) {
     if (sparkVersion != spark12Version)
         println "Using Scala $scalaMajorVersion [$scalaVersion]"
 
-    // when using Scala 2.11 use a different folder to cache the artifacts between builds
-    if (scalaVer == "211") {
+    // when using Scala 2.10 use a different folder to cache the artifacts between builds
+    if (scalaVer == "210") {
       target.sourceSets.each { 
-        it.output.classesDir = file(it.output.classesDir.absolutePath.replaceAll("classes", "classes.211"))
+        it.output.classesDir = file(it.output.classesDir.absolutePath.replaceAll("classes", "classes.210"))
       }
       target.javadoc {
-        destinationDir = file("$project.docsDir/javadoc-211")
+        destinationDir = file("$project.docsDir/javadoc-210")
       }
     }
     
